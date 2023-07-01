@@ -16,6 +16,7 @@ exports.getsignupDetails = async (req, res) =>{
             password: password
         })
         res.status(200).json({message: "user added succesfully"})
+        
     }catch(err){
         if(err.name === 'SequelizeUniqueConstraintError' ){
             res.status(400).json({message: 'user already exists'})

@@ -13,7 +13,7 @@ exports.logindetails = async (req, res) => {
 
         const users = await Users.findOne({ where: { email}  });
         if (users === null) {
-           return  res.json({message: "user doesn't exist"})
+           return  res.status(404).json({message: "User not found"})
         } 
 
          else{
@@ -24,7 +24,7 @@ exports.logindetails = async (req, res) => {
             }
            })
            if(!response){
-            return res.json({message: "incorret password"})
+            return res.status(401).json({message: "incorret password"})
            }else{
             res.json({message: "logged in successfully"})
            }
