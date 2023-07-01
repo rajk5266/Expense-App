@@ -1,14 +1,10 @@
 const express = require('express')
-const path = require('path')
+
 const router = express.Router()
+const controller = require('../controllers/main')
 
-router.get('/user', (req, res) =>{
-    // console.log(req.body)
-    res.sendFile(path.join(__dirname, '..', 'views', 'signup.html'))
-})
+router.get('/user', controller.signupPage )
 
-router.post('/user/signup', (req, res) =>{
-    console.log(req.body)
-})
+router.post('/user/signup', controller.getsignupDetails)
 
 module.exports = router

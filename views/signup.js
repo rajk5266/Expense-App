@@ -5,13 +5,15 @@ async function signup(event){
         const signupdetails = {
              name: event.target.name.value,
              email: event.target.email.value,
-            paasword: event.target.password.value
+            password: event.target.password.value
         }
-        console.log(signupdetails)
-        console.log('k')
-        const response = axios.post('http://localhost:8000/user/signup', signupdetails)
+        // console.log(signupdetails)
+        const response = await axios.post('http://localhost:8000/user/signup', signupdetails)
+        // console.log(response.data.message)
         
     }catch(err){
-        document.body.innerHTML += err;
+        // document.body.innerHTML += err;
+        const error = err.response.data.message;
+         alert(error)
     }
 }
