@@ -1,5 +1,6 @@
 const path = require('path')
 const Users = require('../models/user')
+const bcrypt = require('bcrypt')
 
 
 exports.signupPage = (req, res) =>{
@@ -7,16 +8,17 @@ exports.signupPage = (req, res) =>{
 }
 
 exports.getsignupDetails = async (req, res) =>{
-    // console.log(req.body)
     try{
-        const {name, email, password} = req.body
-        const userdetails = await Users.create({
-            name: name,
-            email: email,
-            password: password
+        const {name, email, password} = req.body;
+        const saltrounds  = 10;
+        bcrypt.hash(password, saltrounds, async(err, hash) =>{
+            await Users.create({
+                name: name,
+                email: email,
+                password: hash
+            })
+            res.status(200).json({message: "user added succesfully"})
         })
-        res.status(200).json({message: "user added succesfully"})
-        
     }catch(err){
         if(err.name === 'SequelizeUniqueConstraintError' ){
             res.status(400).json({message: 'user already exists'})
