@@ -8,6 +8,10 @@
     <link type="text/css" rel="stylesheet" href="login.css">
 </head>
 <body>
+    <div class="background-image" >
+        <img src="./images/money-management.png" alt="">
+    </div>
+    <div class="container">
   <h1>Login</h1>
   
   <form onsubmit="login(event)">
@@ -21,9 +25,11 @@
   </form>
   
   <div class="signup-link">
-    Don't have an account? <a href="http://localhost:8000/user/signup">Sign up</a>
+    Don't have an account? 
+    <br>
+    <a href="http://localhost:8000/user/signup">Sign up</a>
   </div>
-
+</div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
   <script src="./login.js"></script>
 </body>

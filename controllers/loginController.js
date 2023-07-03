@@ -6,7 +6,6 @@ exports.loginpage = (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'login.html'))
 }
 
-
 exports.logindetails = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -16,10 +15,11 @@ exports.logindetails = async (req, res) => {
       } else {
         const passwordMatching = await bcrypt.compare(password, user.password);
         if (passwordMatching) {
-          return res.status(200).json({ success: true, message: 'Logged in successfully' });
+            return res.redirect('/user/expenses')
+        //    res.status(200).json({ success: true, message: 'Logged in successfully' });
         } else {
           return res.status(400).json({ success: false, message: 'Incorrect password' });
-        }
+        } 
       }
     } catch (err) {
       res.status(500).json({ success: false, message: err.message });
