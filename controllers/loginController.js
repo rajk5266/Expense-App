@@ -1,9 +1,14 @@
 const path = require('path')
 const Users = require('../models/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 exports.loginpage = (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'login.html'))
+}
+
+function generateToken (Id){
+    return jwt.sign({userId: Id}, 'jkfnsdfnifnipf')
 }
 
 exports.logindetails = async (req, res) => {
@@ -15,8 +20,8 @@ exports.logindetails = async (req, res) => {
       } else {
         const passwordMatching = await bcrypt.compare(password, user.password);
         if (passwordMatching) {
-            return res.redirect('/user/expenses')
-        //    res.status(200).json({ success: true, message: 'Logged in successfully' });
+            // return res.redirect('/user/expenses')
+           res.status(200).json({ success: true, message: 'Logged in successfully' , token: generateToken(user.id)});
         } else {
           return res.status(400).json({ success: false, message: 'Incorrect password' });
         } 

@@ -1,33 +1,44 @@
 const path = require('path');
 const Expense = require('../models/expensetable');
 
+
 exports.showMainPage = (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'expenses.html'))
 }
 
 
 exports.getExpensesList = async (req, res) =>{
+    console.log(req.body)
     try{
-    const response = await Expense.findAll()
+        const userId = req.user;
+        console.log("--",  userId)
+    const response = await Expense.findAll({
+        where: {
+            userId: userId
+        }
+    })
     res.send(response)
-    // console.log(response)
+    
     }catch(err){
-        // console.log(err)
+       
     }
 }
 exports.addExpense = async (req, res) =>{
     // console.log(req.body)
-    const{description , category , amount} = req.body;
+    const{date, description , category , amount} = req.body;
     // console.log(description, category, amount)
    await Expense.create({
+        date: date,
         description: description,
         category: category,
-        amount: amount
+        amount: amount,
+        userId: req.user
     })
     .then(response =>{
-        const { id, description, category, amount } = response.dataValues;
+        const { id,date, description, category, amount } = response.dataValues;
          res.send({
             id,
+            date,
             description,
             category,
             amount
@@ -39,12 +50,14 @@ exports.addExpense = async (req, res) =>{
 
 exports.deleteExpense = async(req, res) =>{
     const ID = req.params.deleteId;
+    const userId = req.user
     // console.log(req.body)
     console.log(ID)
     try{
         const deletedexpense = await Expense.destroy({
             where: {
-                id:ID
+                id:ID,
+                userId: userId
             }
         });
         if(deletedexpense){
@@ -58,25 +71,28 @@ exports.deleteExpense = async(req, res) =>{
 };
 
 exports.updateExpense = async (req, res) =>{
-    console.log(req.body)
+    // console.log(req.body)
+    const userId = req.user
     const ID = req.params.updateId;
-    console.log(ID)
-    const { description, category, amount } = req.body;
+    
+    const {date,  description, category, amount } = req.body;
     try{
         const updatedexpense = await Expense.findOne({
             where:{
-                id: ID
+                id: ID,
+                userId: userId
             }
         });
         if(!updatedexpense){
             return res.status(404).json({message: 'expense not found'})
         }
         await updatedexpense.update({
+            date, 
             description,
             category,
             amount
         });
-        res.json({description, category, amount});
+        res.json({date, description, category, amount});
     }catch(err){
         res.status(500).json({message: 'internal srver error'})
     }
