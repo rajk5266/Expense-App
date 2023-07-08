@@ -1,7 +1,7 @@
 const path = require('path');
 const Expense = require('../models/expensetable');
 const User = require('../models/user')
-const sequelize = require('sequelize')
+const sequelize = require('../util/database')
 
 exports.showMainPage = async (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'expenses.html'));
@@ -21,51 +21,55 @@ exports.getExpensesList = async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 }
+
 exports.addExpense = async (req, res) => {
+    const t = await sequelize.transaction()
     const { date, description, category, amount } = req.body;
 
     try {
-        const response = await Expense.create({
+        const addingExpense = await Expense.create({
             date: date,
             description: description,
             category: category,
             amount: amount,
             userId: req.user
-        });
-
-        const { id, date: expenseDate, description, category, amount: expenseAmount } = response.dataValues;
+        }, { transaction: t }
+        );
 
         await User.update(
             {
-                totalexpenses: sequelize.literal(`totalexpenses + ${expenseAmount}`)
+                totalexpenses: sequelize.literal(`totalexpenses + ${amount}`)
             },
             {
-                where: { id: req.user }
+                where: { id: req.user },
+                transaction: t
             }
         );
 
-        res.status(200).json({
-            success: true,
-            expense: {
-                id,
-                date: expenseDate,
-                description,
-                category,
-                amount: expenseAmount
-            }
-        });
+        t.commit()
+
+        const response = {
+            id: addingExpense.id,
+            date: addingExpense.date,
+            description: addingExpense.description,
+            category: addingExpense.category,
+            amount: addingExpense.amount
+        };
+
+        res.status(200).json(response);
     } catch (err) {
         console.log(err);
+        t.rollback()
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
 
 exports.deleteExpense = async (req, res) => {
+    const t = await sequelize.transaction()
     const ID = req.params.deleteId;
     const userId = req.user;
 
     try {
-        // const expense = await 
         const expense = await Expense.findOne({
             where: {
                 id: ID,
@@ -82,7 +86,7 @@ exports.deleteExpense = async (req, res) => {
                     id: ID,
                     userId: userId
                 }
-            });
+            }, { transaction: t });
             await User.update(
                 {
                     totalexpenses: sequelize.literal(`totalexpenses - ${amountToSubtract}`)
@@ -90,62 +94,67 @@ exports.deleteExpense = async (req, res) => {
                 {
                     where: {
                         id: userId
-                    }
+                    }, transaction: t
                 }
             );
+            t.commit()
 
             res.status(200).json({ success: true });
         } else {
             res.status(404).json({ success: false, message: "Expense not found" });
         }
     } catch (error) {
+        t.rollback()
         res.status(500).json({ success: false, error: error.message });
     }
 };
 
 
 exports.updateExpense = async (req, res) => {
+    const t = await sequelize.transaction()
     // console.log(req.body)
     const userId = req.user
-    const ID = req.params.updateId;
+    const id = req.params.updateId;
     const { date, description, category, amount } = req.body;
 
     try {
         const expense = await Expense.findOne({
             where: {
-                id:ID,
+                id: id,
                 userId: userId
             },
             attributes: ['amount']
         });
         const oldAmount = expense.amount;
-        
+
         await Expense.update({
             date,
             description,
             category,
             amount
         },
-        {
-            where: {
-                id: ID,
-                userId: userId
-            }
-        }
+            {
+                where: {
+                    id: id,
+                    userId: userId
+                }
+            }, { transaction: t }
         );
         await User.update({
             totalexpenses: sequelize.literal(`totalexpenses - ${oldAmount} + ${amount}`)
         },
-        {
-            where: {
-                id: userId
+            {
+                where: {
+                    id: userId
+                }, transaction: t
             }
-        }
         )
-        res.json({ date, description, category, amount });
+        t.commit()
+        res.json({ date, description, category, amount, id });
     } catch (err) {
+        t.rollback()
         res.status(500).json({ message: 'internal srver error' })
     }
-    
+
 }
 
