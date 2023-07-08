@@ -4,11 +4,10 @@ const Order = require('../models/Order');
 const User = require('../models/user');
 const Expense = require('../models/expensetable')
 const sequelize = require('sequelize')
-const { Op } = require('sequelize');
 
 exports.showLeaderboardSection = async (req, res) => {
-    console.log(req.user, "------")
-    console.log("--->", req.headers, "<----")
+    // console.log(req.user, "------")
+    // console.log("--->", req.headers, "<----")
     res.sendFile(path.join(__dirname, '..', 'views', 'leaderboard.html'));
 };
 
@@ -23,7 +22,6 @@ exports.showStatus = async (req, res) => {
         include: [
           {
             model: Expense,
-            as: 'expenses',
             attributes: [],
           },
         ],
