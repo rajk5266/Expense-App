@@ -4,6 +4,7 @@ const User = require('../models/user')
 const sequelize = require('../util/database')
 
 exports.showMainPage = async (req, res) => {
+
     res.sendFile(path.join(__dirname, '..', 'views', 'expenses.html'));
 };
 
@@ -22,29 +23,61 @@ exports.getExpensesList = async (req, res) => {
     }
 }
 
+
+exports.getAllExpensesforPagination = async (req, res) => {
+    try {
+      const pageNo = parseInt(req.params.page)
+      const limit = 10;
+  
+      const count = await Expense.count({
+        where: {
+          userId: req.user,
+        },
+      });
+      const totalPages = Math.ceil(count / limit);
+  
+      const offset = (pageNo - 1) * limit;
+      const expenses = await Expense.findAll({
+        where: {
+          userId: req.user,
+        },
+        limit: limit,
+        offset: offset,
+      });
+  
+      res.json({ expenses, totalPages });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  };
 exports.addExpense = async (req, res) => {
     const t = await sequelize.transaction()
-    const { date, description, category, amount } = req.body;
+    const { date, description, category, type, amount } = req.body;
 
     try {
         const addingExpense = await Expense.create({
             date: date,
             description: description,
             category: category,
+            type: type,
             amount: amount,
             userId: req.user
         }, { transaction: t }
         );
 
+        const fieldToUpdate = (type === 'expense') ? 'totalexpenses' : 'totalincome';
+
         await User.update(
             {
-                totalexpenses: sequelize.literal(`totalexpenses + ${amount}`)
+                [fieldToUpdate]: sequelize.literal(`${fieldToUpdate} + ${amount}`)
             },
             {
                 where: { id: req.user },
                 transaction: t
             }
         );
+
 
         t.commit()
 
@@ -53,6 +86,7 @@ exports.addExpense = async (req, res) => {
             date: addingExpense.date,
             description: addingExpense.description,
             category: addingExpense.category,
+            type: addingExpense.type,
             amount: addingExpense.amount
         };
 
@@ -73,13 +107,15 @@ exports.deleteExpense = async (req, res) => {
         const expense = await Expense.findOne({
             where: {
                 id: ID,
-                userId: userId
+                userId: userId,
+
             },
-            attributes: ['amount']
+            attributes: ['amount', 'type']
         });
 
+
         if (expense) {
-            const amountToSubtract = expense.amount;
+            const { amount, type } = expense;
 
             await Expense.destroy({
                 where: {
@@ -87,9 +123,15 @@ exports.deleteExpense = async (req, res) => {
                     userId: userId
                 }
             }, { transaction: t });
+
+            const updateField = (type === 'expense') ? 'totalexpenses' : 'totalincome';
+            if (type === 'expense') {
+
+            }
+
             await User.update(
                 {
-                    totalexpenses: sequelize.literal(`totalexpenses - ${amountToSubtract}`)
+                    [updateField]: sequelize.literal(`${updateField} - ${amount}`)
                 },
                 {
                     where: {
@@ -109,13 +151,13 @@ exports.deleteExpense = async (req, res) => {
     }
 };
 
-
 exports.updateExpense = async (req, res) => {
-    const t = await sequelize.transaction()
-    // console.log(req.body)
-    const userId = req.user
+    const t = await sequelize.transaction();
+    const userId = req.user;
     const id = req.params.updateId;
-    const { date, description, category, amount } = req.body;
+    const { date, description, category, type, amount } = req.body;
+    const newtype = type;
+    console.log(type)
 
     try {
         const expense = await Expense.findOne({
@@ -123,38 +165,91 @@ exports.updateExpense = async (req, res) => {
                 id: id,
                 userId: userId
             },
-            attributes: ['amount']
+            attributes: ['amount', 'type']
         });
-        const oldAmount = expense.amount;
 
-        await Expense.update({
-            date,
-            description,
-            category,
-            amount
-        },
-            {
-                where: {
-                    id: id,
-                    userId: userId
+        if (expense) {
+            const { amount: oldAmount, type: oldType } = expense;
+
+            await Expense.update({
+                date,
+                description,
+                category,
+                type,
+                amount
+            },
+                {
+                    where: {
+                        id: id,
+                        userId: userId
+                    },
+                    transaction: t
+                });
+
+
+            if (oldType !== newtype) {
+                if (oldType === 'expense') {
+                    await User.update(
+                        {
+                            totalexpenses: sequelize.literal(`totalexpenses - ${oldAmount}`),
+                            totalincome: sequelize.literal(`totalincome + ${amount}`)
+                        },
+                        {
+                            where: {
+                                id: userId
+                            },
+                            transaction: t
+                        }
+                    );
+                } else {
+                    await User.update(
+                        {
+                            totalincome: sequelize.literal(`totalincome - ${oldAmount}`),
+                            totalexpenses: sequelize.literal(`totalexpenses + ${amount}`)
+                        },
+                        {
+                            where: {
+                                id: userId
+                            },
+                            transaction: t
+                        }
+                    );
                 }
-            }, { transaction: t }
-        );
-        await User.update({
-            totalexpenses: sequelize.literal(`totalexpenses - ${oldAmount} + ${amount}`)
-        },
-            {
-                where: {
-                    id: userId
-                }, transaction: t
+            } else {
+                if (newtype === 'expense') {
+                    await User.update(
+                        {
+                            totalexpenses: sequelize.literal(`totalexpenses - ${oldAmount} + ${amount}`)
+                        },
+                        {
+                            where: {
+                                id: userId
+                            },
+                            transaction: t
+                        }
+                    );
+                } else {
+                    await User.update(
+                        {
+                            totalincome: sequelize.literal(`totalincome - ${oldAmount} + ${amount}`)
+                        },
+                        {
+                            where: {
+                                id: userId
+                            },
+                            transaction: t
+                        }
+                    );
+                }
             }
-        )
-        t.commit()
-        res.json({ date, description, category, amount, id });
+            await t.commit();
+            res.json({ date, description, category, type, amount, id });
+        } else {
+            res.status(404).json({ success: false, message: "Expense not found" });
+        }
     } catch (err) {
-        t.rollback()
-        res.status(500).json({ message: 'internal srver error' })
+        await t.rollback();
+        res.status(500).json({ success: false, error: err.message });
     }
-
-}
+};
 
