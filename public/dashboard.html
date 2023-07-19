@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HomePage</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
+  <link rel="stylesheet" href="/dashboard.css">
+  <style>
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+  <body>
+    <div class="container">
+
+        <div class="row mt-4" >
+          <div class="col-md-6 col-lg-5 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Total Expenses</h5>
+                <p class="card-text text-danger text-center" id="totalExpensesAmount"></p>
+                <div id="expensesChart"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-2 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Net</h5>
+                <p class="card-text text-center" id="netAmount"></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-5 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Total Incomes</h5>
+                <p class="card-text text-success text-center" id="totalIncomeAmount"></p>
+                <div id="incomesChart"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-12 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody id="transactionTableBody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        
+        </div>
+      </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="/dashboard.js"></script>
+</body>
+</html>

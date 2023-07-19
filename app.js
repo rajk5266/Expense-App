@@ -19,6 +19,7 @@ const premium = require('./routes/premiumroute')
 const leaderboard = require('./routes/leaderboardRoute')
 const resetPassword = require('./routes/resetPasswordRoute')
 const report = require('./routes/reportRoute')
+const dashboard = require('./routes/dashboardRoute')
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
@@ -30,6 +31,7 @@ app.use('/', premium)
 app.use('/', leaderboard)
 app.use('/', resetPassword)
 app.use('/', report)
+app.use('/', dashboard)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
