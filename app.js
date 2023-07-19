@@ -1,11 +1,24 @@
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
+const fs = require('fs')
 const bodyParser = require('body-parser')
 const sequelize = require('./util/database')
 const cors = require('cors')
 const app = express()
+const helmet = require('helmet')
+const morgan = require('morgan')
 
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a'})
+
+app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+    })
+  );
+
+  app.use(morgan('combined' , {stream: accessLogStream}))
 
 app.use(cors())
 const User = require('./models/user')
