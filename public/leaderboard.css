@@ -1,0 +1,42 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  
+  .table thead th {
+    background-color: rgb(210, 179, 140);
+    border-bottom: 2px solid #dee2e6;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color:rgb(247, 236, 223);
+  }
+  
+  .table-striped tbody tr:nth-of-type(even) {
+    background-color:  rgb(247, 233, 217);
+  }
+  
+  @media (max-width: 576px) {
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+  
