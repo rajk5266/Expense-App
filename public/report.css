@@ -3,7 +3,9 @@
     flex-direction: column;
     justify-content: center;
   }
-
+body{
+   background-color: #fcf7ea;
+}
   .select-card {
     background-color:rgb(244, 227, 195);
     border: none;

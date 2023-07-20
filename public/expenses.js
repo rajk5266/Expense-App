@@ -14,7 +14,6 @@ window.addEventListener('DOMContentLoaded',
 
             const limit = limitSelect.value;
             const response = await axios.get(`http://localhost:9000/api/userData/1/${limit}`, tokentosend)
-console.log(response.data)
             const pageButton = response.data.totalPages
             const ispremium = await axios.get('http://localhost:9000/user/profile', tokentosend)
             const ispremiumStatus = ispremium.data.ispremium
@@ -25,7 +24,7 @@ console.log(response.data)
             } else {
                 notPremiumFeatures(ispremiumStatus)
             }
-            for (let i = 0; i < response.data.expenses.length; i++) {
+            for (let i = response.data.expenses.length-1; i >=0 ; i--) {
                 showExpensesList(response.data.expenses[i])
             }
 
@@ -167,8 +166,8 @@ function showExpensesList(obj) {
     actionsCell.appendChild(delBtn);
     tableRow.appendChild(actionsCell);
 
-    tableBody.appendChild(tableRow);
-
+    tableBody.prepend(tableRow);
+    
     const tableLength = tableBody.rows.length;
     const limit = document.getElementById('pgLimit').value
     if (tableLength > limit) {
@@ -183,7 +182,7 @@ function showExpensesList(obj) {
         const expenses = response.data.expenses;
         console.log(expenses)
         document.getElementById('expensesTableBody').innerHTML = ''
-        for (let i = 0; i < expenses.length; i++) {
+        for (let i = expenses.length-1; i >=0 ; i--) {
             showExpensesList(expenses[i]);
         }
         // generateButton(totalPages)

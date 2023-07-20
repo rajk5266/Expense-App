@@ -27,7 +27,6 @@ exports.getAllExpensesforPagination = async (req, res) => {
     try {
       const pageNo = parseInt(req.params.page)
       const limit = parseInt(req.params.limit)
-    // limit = 10
   
       const count = await Expense.count({
         where: {
@@ -41,7 +40,7 @@ exports.getAllExpensesforPagination = async (req, res) => {
         where: {
           userId: req.user,
         },
-        // order: [['id', 'DESC']],
+        order: [['id', 'DESC']],
         limit: limit,
         offset: offset,
       });
@@ -52,7 +51,6 @@ exports.getAllExpensesforPagination = async (req, res) => {
       res.status(500).json({ success: false, error: 'Internal server error' });
     }
   };
-
 
 
   exports.addExpense = async (req, res) => {
@@ -256,4 +254,3 @@ exports.updateExpense = async (req, res) => {
         res.status(500).json({ success: false, error: err.message });
     }
 };
-

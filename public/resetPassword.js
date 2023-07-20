@@ -1,31 +1,36 @@
+const token = localStorage.getItem('token')
+const tokentosend = { headers: { 'Authorization': token } }
 
 window.addEventListener('DOMContentLoaded', () => {
     const url = window.location.href
+    // console.log("url",url)
     const id = url.split('/').pop()
+    console.log(id)
     document.getElementById('resetPasswordId').value = id;
 })
 
-function sendNewPassword(e) {
-    e.preventDefault()
+async function sendNewPassword(e) {
+    e.preventDefault();
 
     const id = e.target.id.value;
     const newPassword = e.target.newPassword.value;
-    const confirmPassword = e.target.confirmPassword.value
+    const confirmPassword = e.target.confirmPassword.value;
     const obj = {
         id, newPassword, confirmPassword
+    };
+    console.log(obj);
+    
+    if (newPassword !== confirmPassword) {
+        alert('confirm password is not same as new password');
+        return;
     }
-    if (newPassword != confirmPassword) {
-        alert('confirm password is not same as new password')
-        return
-    }
-    console.log(obj)
-    const updatedPassword = axios.post('http://localhost:9000/password/resetPassword', obj)
-    .then(response =>{
-         console.log(response)
-         alert('password updated successfully');
-         window.location.href = 'http://localhost:9000/user'
-    }
-    )
-    .catch(err => console.log(err))
 
+    try {
+        const response = await axios.post('http://localhost:9000/password/resetPassword', obj, tokentosend);
+        console.log(response);
+        alert('password updated successfully');
+        window.location.href = 'http://localhost:9000/user';
+    } catch (err) {
+        console.log(err);
+    }
 }

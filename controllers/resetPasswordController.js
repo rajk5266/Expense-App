@@ -9,7 +9,7 @@ const ForgotPassword = require('../models/resetPassword');
 
 const client = SibApiV3Sdk.ApiClient.instance;
 const apikey = client.authentications["api-key"];
-apikey.apiKey = "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"
+apikey.apiKey = "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"
 
 
 exports.showforgotPasswordForm = (req, res) => {
@@ -18,16 +18,16 @@ exports.showforgotPasswordForm = (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
     try {
+        console.log("req.user",req.user)
         const { email } = req.body
         const user = await User.findOne({
             where: { email }
         })
         if (user) {
             const id = uuid.v4()
-            console.log(id)
             ForgotPassword.create({ id, userId: req.user, isactive: true })
                 .catch(err => {
-                    console.log("errrr",err)
+                    console.log(err)
                 })
             const sendinblue = new SibApiV3Sdk.TransactionalEmailsApi();
             const sendSmtpemail = {
@@ -47,11 +47,11 @@ exports.forgotPassword = async (req, res) => {
             return res.status(200).json({ message: "link has been send to reset password", success: true })
         }
         else {
-            console.log('user does not exist')
+            console.log('user doesnpt exist')
             return res.status(404).json('user does not exist')
         }
     } catch (err) {
-        // console.log(err)
+        console.log(err)
         return res.json({ message: err, success: false })
     }
 }
@@ -72,38 +72,80 @@ exports.showResetPasswordForm = async (req, res) => {
     }
 }
 
+// exports.updatePassword = async (req, res) => {
+//     try{
+//         const{id, confirmPassword} = req.body;
+//         const forgotdetails = await ForgotPassword.findOne({
+//             where:{
+//                 id
+//             }
+//         })
+//         console.log("---->", forgotdetails)
+//        await forgotdetails.update({
+//             isactive: false
+//         })
+//         const userId = forgotdetails.userId;
+//         const user = await User.findOne({
+//             where: {
+//                 id: userId
+//             }
+//         })
+//         if(user){
+//             const saltrounds = 10;
+//           const hash = bcrypt.hash(confirmPassword, saltrounds, async(err, hash) => {
+//                 await user.update({
+//                     password: hash
+//                 })
+//                 res.status(200).json({message: "password updated succesfully"})
+                
+//             })
+//         }
+//         else{
+//             res.status(404).json({message : 'user does not exist', success: false})
+//         }
+//     }catch(err){
+//         console.log(err)
+//     }
+// }
+
+
 exports.updatePassword = async (req, res) => {
     try{
+        console.log(req.user, "req.userrr")
         const{id, confirmPassword} = req.body;
+        console.log("id", id, "---", confirmPassword)
         const forgotdetails = await ForgotPassword.findOne({
             where:{
                 id
             }
         })
+        console.log(forgotdetails)
         forgotdetails.update({
             isactive: false
         })
         const userId = forgotdetails.userId;
+        console.log("userID---> ", userId)
         const user = await User.findOne({
             where: {
                 id: userId
             }
         })
-        if(user){
+        console.log("userrr", user)
+        if (user) {
             const saltrounds = 10;
-            bcrypt.hash(confirmPassword, saltrounds, async(err, hash) => {
-                await user.update({
-                    password: hash
-                })
-                res.status(200).json({message: "password updated succesfully"})
-                
-            })
+            const hash = await bcrypt.hash(confirmPassword, saltrounds);
+            console.log("hash", hash)
+            await user.update({
+                password: hash
+            });
+
+            res.status(200).json({ message: "password updated successfully" });
         }
         else{
             res.status(404).json({message : 'user does not exist', success: false})
         }
     }catch(err){
         console.log(err)
+        res.status(500).json({ message: "internal server error", success: false });
     }
 }
-
