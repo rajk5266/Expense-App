@@ -9,7 +9,7 @@ const ForgotPassword = require('../models/resetPassword');
 
 const client = SibApiV3Sdk.ApiClient.instance;
 const apikey = client.authentications["api-key"];
-apikey.apiKey = "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"
+apikey.apiKey = process.env.BREVO_API
 
 
 exports.showforgotPasswordForm = (req, res) => {

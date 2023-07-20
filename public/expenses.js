@@ -289,10 +289,10 @@ logOutButton.onclick = async () => {
 function generateButton(pageButton) {
     const btn = document.getElementById('paginationBtn')
     for (let i = 1; i <= pageButton; i++) {
-        const btnroadd = document.createElement('button')
-        btnroadd.dataset.page = i
-        btnroadd.classList = 'pgBtn'
-        btnroadd.textContent = `${i}`
-        btn.appendChild(btnroadd)
+        const btnToAdd = document.createElement('button')
+        btnToAdd.dataset.page = i
+        btnToAdd.classList = 'pgBtn'
+        btnToAdd.textContent = `${i}`
+        btn.appendChild(btnToAdd)
     }
 }

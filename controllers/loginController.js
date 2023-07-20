@@ -3,6 +3,7 @@ const Users = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const token = process.env.TOKEN
+
 exports.loginpage = (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'login.html'))
 }
