@@ -16,7 +16,6 @@ async function login(event) {
         }else{
             console.log('failed to login')
         }
-
     } catch (err) {
 
         console.log('error')

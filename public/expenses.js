@@ -11,7 +11,6 @@ window.addEventListener('DOMContentLoaded',
             } else {
                 limitSelect.value = document.getElementById('defaultOption').value;
             }
-
             const limit = limitSelect.value;
             const response = await axios.get(`http://16.171.1.107:9000/api/userData/1/${limit}`, tokentosend)
             const pageButton = response.data.totalPages

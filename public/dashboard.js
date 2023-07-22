@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 }
 
+
 function showTransaction(obj) {
     const tableBody = document.getElementById('transactionTableBody');
     const tableRow = document.createElement('tr');

@@ -24,7 +24,6 @@ reportTypeSelect.addEventListener('change', () => {
         dateInput.style.display = 'none';
     }
 });
-
 window.addEventListener('DOMContentLoaded', async () => {
     try{
         const reportHistory = await axios.get('http://16.171.1.107:9000/premium/report/history', tokentosend)

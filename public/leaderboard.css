@@ -33,7 +33,6 @@
   .table-striped tbody tr:nth-of-type(even) {
     background-color:  rgb(247, 233, 217);
   }
-  
   @media (max-width: 576px) {
     .table-responsive {
       overflow-x: auto;

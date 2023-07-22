@@ -20,7 +20,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         console.log(err)
        }
     })
-
     function showLeaderboard(obj, i){
 
         const tableBody = document.getElementById('table-body')
