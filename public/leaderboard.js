@@ -3,7 +3,7 @@ const tokentosend = { headers: { 'Authorization': token } }
 
 window.addEventListener('DOMContentLoaded', async () => {
        try{
-        const response  = await axios.get('http://localhost:9000/premium/leaderboardStatus', tokentosend)
+        const response  = await axios.get('http://16.171.1.107:9000/premium/leaderboardStatus', tokentosend)
         console.log(response)
         const result = response.data;
         // console.log(result)
@@ -12,10 +12,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
        }catch(err){
         if(err.response.status === 401){
-            window.location.href = "http://localhost:9000/user/expenses"
+            window.location.href = "http://16.171.1.107:9000/user/expenses"
         }
         else if(err.response.status === 404){
-            window.location.href = window.location.href = 'http://localhost:8000/user/expenses'
+            window.location.href = window.location.href = 'http://16.171.1.107:8000/user/expenses'
         }
         console.log(err)
        }

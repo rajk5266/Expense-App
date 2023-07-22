@@ -45,6 +45,9 @@ app.use('/', leaderboard)
 app.use('/', resetPassword)
 app.use('/', report)
 app.use('/', dashboard)
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, `public/${req.url}`))
+})
 
 app.use(express.static(path.join(__dirname, 'public')));
 

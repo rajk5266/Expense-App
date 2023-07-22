@@ -13,9 +13,9 @@ window.addEventListener('DOMContentLoaded',
             }
 
             const limit = limitSelect.value;
-            const response = await axios.get(`http://localhost:9000/api/userData/1/${limit}`, tokentosend)
+            const response = await axios.get(`http://16.171.1.107:9000/api/userData/1/${limit}`, tokentosend)
             const pageButton = response.data.totalPages
-            const ispremium = await axios.get('http://localhost:9000/user/profile', tokentosend)
+            const ispremium = await axios.get('http://16.171.1.107:9000/user/profile', tokentosend)
             const ispremiumStatus = ispremium.data.ispremium
 
             if (ispremiumStatus) {
@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded',
             console.log(error)
             if (error.response.status == 401) {
 
-                window.location.href = 'http://localhost:9000/user'
+                window.location.href = 'http://16.171.1.107:9000/user'
             }
         }
     })
@@ -65,7 +65,7 @@ async function adding(event) {
     }
     if(updateId){
         try{
-            const response = await axios.put(`http://localhost:9000/api/userData/${updateId}`, obj, tokentosend)
+            const response = await axios.put(`http://16.171.1.107:9000/api/userData/${updateId}`, obj, tokentosend)
             showExpensesList(response.data);
             delete document.getElementById('submitButon').dataset.updateId;
         }
@@ -77,7 +77,7 @@ async function adding(event) {
     else{
         try{
             console.log(obj)
-            const response = await axios.post('http://localhost:9000/api/userData', obj, tokentosend)
+            const response = await axios.post('http://16.171.1.107:9000/api/userData', obj, tokentosend)
             console.log(response)
             showExpensesList(response.data);
 
@@ -150,7 +150,7 @@ function showExpensesList(obj) {
     delBtn.onclick = async () => {
       try {
         const deleteId = obj.id;
-            const response = await axios.delete(`http://localhost:9000/api/userData/${deleteId}`, tokentosend);
+            const response = await axios.delete(`http://16.171.1.107:9000/api/userData/${deleteId}`, tokentosend);
             if (response.status === 200) {
                 alert('item will be deleted')
             }
@@ -177,7 +177,7 @@ function showExpensesList(obj) {
 
   async function handlePagination(page, limit) {
     try {
-        const response = await axios.get(`http://localhost:9000/api/userData/${page}/${limit}`, tokentosend);
+        const response = await axios.get(`http://16.171.1.107:9000/api/userData/${page}/${limit}`, tokentosend);
         const totalPages = response.data.totalPages
         const expenses = response.data.expenses;
         console.log(expenses)
@@ -211,7 +211,7 @@ pgLimit.addEventListener('change', async function () {
     btn.innerHTML = '';
 
     document.getElementById('expensesTableBody').innerHTML = ''
-    const response = await axios.get(`http://localhost:9000/api/userData/${page}/${limit}`, tokentosend)
+    const response = await axios.get(`http://16.171.1.107:9000/api/userData/${page}/${limit}`, tokentosend)
     const totalPages = response.data.totalPages
 
     for (let i = 0; i < response.data.expenses.length; i++) {
@@ -225,14 +225,14 @@ const premiumButton = document.getElementById('premiumButton')
 premiumButton.onclick = async function (e) {
     e.preventDefault()
 
-    const response = await axios.get('http://localhost:9000/purchase/premiumMembership', tokentosend)
+    const response = await axios.get('http://16.171.1.107:9000/purchase/premiumMembership', tokentosend)
     // console.log(response)
     var options = {
         "key": response.data.key_id,
         "order_id": response.data.order.id,
 
         "handler": async function (response) {
-            const resp = await axios.post('http://localhost:9000/purchase/premiumMembership', {
+            const resp = await axios.post('http://16.171.1.107:9000/purchase/premiumMembership', {
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,
             }, { headers: { "Authorization": token } })
@@ -252,7 +252,7 @@ premiumButton.onclick = async function (e) {
         // console.log(response)
         const data = await options.order_id
         console.log(data)
-        await axios.post('http://localhost:9000/purchase/cancelPremium', { orderid: data }, tokentosend)
+        await axios.post('http://16.171.1.107:9000/purchase/cancelPremium', { orderid: data }, tokentosend)
         alert('something went wrong')
     })
 }
@@ -283,7 +283,7 @@ function premiumFeatures() {
 const logOutButton = document.getElementById('logOutButton')
 logOutButton.onclick = async () => {
     localStorage.removeItem('token')
-    window.location.href = 'http://localhost:9000/user'
+    window.location.href = 'http://16.171.1.107:9000/user'
 }
 
 function generateButton(pageButton) {

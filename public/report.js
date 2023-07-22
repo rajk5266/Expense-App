@@ -27,7 +27,7 @@ reportTypeSelect.addEventListener('change', () => {
 
 window.addEventListener('DOMContentLoaded', async () => {
     try{
-        const reportHistory = await axios.get('http://localhost:9000/premium/report/history', tokentosend)
+        const reportHistory = await axios.get('http://16.171.1.107:9000/premium/report/history', tokentosend)
        
         for(let i=0; i<reportHistory.data.length; i++){
             showHistory(reportHistory.data[i])
@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }catch(err){
         console.log(err)
         if(err.response.status === 401){
-            window.location.href = 'http://localhost:9000/user'
+            window.location.href = 'http://16.171.1.107:9000/user'
         } 
     }
 })
@@ -73,14 +73,14 @@ async function generateReport(reportType, selectedValue) {
     
     if (reportType === 'date') {
 
-        const dailyReport = await axios.post('http://localhost:9000/premium/report/dailyReport', { Date: selectedValue }, tokentosend)
+        const dailyReport = await axios.post('http://16.171.1.107:9000/premium/report/dailyReport', { Date: selectedValue }, tokentosend)
         showReport(dailyReport.data)
         if(dailyReport.data.length !=0){
             downloadReportButton.disabled = false;
         }
         downloadReportButton.onclick = async () => {
             try{
-                const downloadReport = await axios.post('http://localhost:9000/premium/report/dailyReport/download', { Date: selectedValue }, tokentosend)
+                const downloadReport = await axios.post('http://16.171.1.107:9000/premium/report/dailyReport/download', { Date: selectedValue }, tokentosend)
                 if(downloadReport.status === 200){
                     var a = document.createElement('a');
                     a.href = downloadReport.data.fileURL;
@@ -100,7 +100,7 @@ async function generateReport(reportType, selectedValue) {
 
     }
     else if (reportType === 'month') {
-        const monthlyReport = await axios.post('http://localhost:9000/premium/report/monthlyReport', { month: selectedValue }, tokentosend)
+        const monthlyReport = await axios.post('http://16.171.1.107:9000/premium/report/monthlyReport', { month: selectedValue }, tokentosend)
         
         showReport(monthlyReport.data)
         if(monthlyReport.data.length !=0){
@@ -108,7 +108,7 @@ async function generateReport(reportType, selectedValue) {
         }
         downloadReportButton.onclick = async () => {
             try{
-                const downloadReport = await axios.post('http://localhost:9000/premium/report/monthlyReport/download', { month: selectedValue }, tokentosend)
+                const downloadReport = await axios.post('http://16.171.1.107:9000/premium/report/monthlyReport/download', { month: selectedValue }, tokentosend)
                 if(downloadReport.status === 200){
                     var a = document.createElement('a');
                     a.href = downloadReport.data.fileURL;
@@ -137,7 +137,7 @@ async function generateReport(reportType, selectedValue) {
             endDate
         }
        
-        const customDateReport = await axios.post('http://localhost:9000/premium/report/customDate', obj, tokentosend)
+        const customDateReport = await axios.post('http://16.171.1.107:9000/premium/report/customDate', obj, tokentosend)
         console.log(customDateReport.data)
         // showReport(customDateReport.data)
         if(customDateReport.data.length !=0){
@@ -145,7 +145,7 @@ async function generateReport(reportType, selectedValue) {
         }
         downloadReportButton.onclick = async () => {
                 try{
-                    const downloadReport = await axios.post('http://localhost:9000/premium/report/customDate/download', obj, tokentosend)
+                    const downloadReport = await axios.post('http://16.171.1.107:9000/premium/report/customDate/download', obj, tokentosend)
                     if(downloadReport.status === 200){
                         var a = document.createElement('a');
                         a.href = downloadReport.data.fileURL;

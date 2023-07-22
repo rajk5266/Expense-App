@@ -6,13 +6,13 @@ async function login(event) {
             password: event.target.password.value
         }
 
-        const logindetails = await axios.post('http://localhost:9000/api/login', obj)
+        const logindetails = await axios.post('http://16.171.1.107:9000/api/login', obj)
 
         console.log(logindetails)
         if(logindetails.status === 200){
             localStorage.setItem('token', logindetails.data.token)
 
-            window.location.href = 'http://localhost:9000/user/expenses'
+            window.location.href = 'http://16.171.1.107:9000/user/expenses'
         }else{
             console.log('failed to login')
         }

@@ -3,7 +3,7 @@ const tokentosend = { headers: { 'Authorization': token } }
 
 document.addEventListener('DOMContentLoaded', async function () {
     try {
-        const Response = await axios.get('http://localhost:9000/user/totalExpenses', tokentosend);
+        const Response = await axios.get('http://16.171.1.107:9000/user/totalExpenses', tokentosend);
         const expensesData = Response.data[0];
         // Update the total expenses value in the card
         document.getElementById('totalExpensesAmount').textContent = `₹ ${expensesData.totalexpenses}`;
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.log(error.response.status)
         if(error.response.status === 401){
             console.log('----')
-            window.location.href = "http://localhost:9000/user/expenses"
+            window.location.href = "http://16.171.1.107:9000/user/expenses"
         }
         console.log('Error fetching total expenses:', error);
     }
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     async function chart() {
         try {
-            const expensePiechart = await axios.get('http://localhost:9000/user/expensesCategoryData', tokentosend);
-            const incomesPiechart = await axios.get('http://localhost:9000/user/incomesCategoryData', tokentosend);
+            const expensePiechart = await axios.get('http://16.171.1.107:9000/user/expensesCategoryData', tokentosend);
+            const incomesPiechart = await axios.get('http://16.171.1.107:9000/user/incomesCategoryData', tokentosend);
             const expensesChartOptions = {
                 series: expensePiechart.data.map(item => Number(item.totalAmount)),
                 chart: {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     async function transaction(){
      try{
-      const lastEntries = await axios.get('http://localhost:9000/user/lastEntries', tokentosend)
+      const lastEntries = await axios.get('http://16.171.1.107:9000/user/lastEntries', tokentosend)
       console.log(lastEntries.data)
       for(let i=0; i<lastEntries.data.length; i++){
           showTransaction(lastEntries.data[i])
