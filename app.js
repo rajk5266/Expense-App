@@ -9,17 +9,15 @@ const app = express()
 const helmet = require('helmet')
 const morgan = require('morgan')
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a'})
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
 app.use(
     helmet({
-      contentSecurityPolicy: false,
-      crossOriginEmbedderPolicy: false,
+        contentSecurityPolicy: false,
+        crossOriginEmbedderPolicy: false,
     })
-  );
-
-  app.use(morgan('combined' , {stream: accessLogStream}))
-
+);
+app.use(morgan('combined', { stream: accessLogStream }))
 app.use(cors())
 const User = require('./models/user')
 const Expense = require('./models/expensetable')
@@ -34,7 +32,7 @@ const resetPassword = require('./routes/resetPasswordRoute')
 const report = require('./routes/reportRoute')
 const dashboard = require('./routes/dashboardRoute')
 
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/', signup)
@@ -57,9 +55,9 @@ User.hasMany(resetPasswordRequest)
 resetPasswordRequest.belongsTo(User)
 
 sequelize
- .sync( )
- .then(result => {
-    console.log('database connected')
-    app.listen(process.env.PORT) 
-     })
- .catch(err => console.log(err))
+    .sync()
+    .then(result => {
+        console.log('database connected')
+        app.listen(process.env.PORT)
+    })
+    .catch(err => console.log(err))
