@@ -65,8 +65,8 @@ document.getElementById('generateReport').addEventListener('click', () => {
 
     generateReport(reportType, selectedValue);
 });
-const downloadReportButton = document.getElementById('downloadReport')
-downloadReportButton.disabled = true
+// const downloadReportButton = document.getElementById('downloadReport')
+// downloadReportButton.disabled = true
 
 async function generateReport(reportType, selectedValue) {
     
