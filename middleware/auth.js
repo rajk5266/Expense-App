@@ -3,6 +3,7 @@ const User = require('../models/user');
 
 const auth = (req, res, next) =>{
     try{
+        // console.log(req.user, "middlewarechecking")
         const token = req.header('Authorization');
       
         const {userId} = jwt.verify(token, 'jkfnsdfnifnipf')

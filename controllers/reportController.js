@@ -36,6 +36,7 @@ exports.showdailyReportData = async (req, res) => {
 
 exports.showmonthlyReportData = async (req, res) => {
     try {
+        console.log(req.user, "hhikhk")
       const { month } = req.body;
       const userId = req.user;
       const reportData = await reportService.generateMonthlyReport(userId, month);
