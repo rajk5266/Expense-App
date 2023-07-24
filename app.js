@@ -17,7 +17,7 @@ app.use(
         crossOriginEmbedderPolicy: false,
     })
 );
-app.use(morgan('combined', { stream: accessLogStream }))
+// app.use(morgan('combined', { stream: accessLogStream }))
 app.use(cors())
 const User = require('./models/user')
 const Expense = require('./models/expensetable')
@@ -58,6 +58,6 @@ sequelize
     .sync()
     .then(result => {
         console.log('database connected')
-        app.listen(process.env.PORT)
+        app.listen(process.env.PORT || 8000)
     })
     .catch(err => console.log(err))
