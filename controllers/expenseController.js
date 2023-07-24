@@ -25,35 +25,35 @@ exports.getExpensesList = async (req, res) => {
 
 exports.getAllExpensesforPagination = async (req, res) => {
     try {
-      const pageNo = parseInt(req.params.page)
-      const limit = parseInt(req.params.limit)
-  
-      const count = await Expense.count({
-        where: {
-          userId: req.user,
-        },
-      });
-      const totalPages = Math.ceil(count / limit);
-  
-      const offset = (pageNo - 1) * limit;
-      const expenses = await Expense.findAll({
-        where: {
-          userId: req.user,
-        },
-        order: [['id', 'DESC']],
-        limit: limit,
-        offset: offset,
-      });
-  
-      res.json({ expenses, totalPages });
+        const pageNo = parseInt(req.params.page)
+        const limit = parseInt(req.params.limit)
+
+        const count = await Expense.count({
+            where: {
+                userId: req.user,
+            },
+        });
+        const totalPages = Math.ceil(count / limit);
+
+        const offset = (pageNo - 1) * limit;
+        const expenses = await Expense.findAll({
+            where: {
+                userId: req.user,
+            },
+            order: [['id', 'DESC']],
+            limit: limit,
+            offset: offset,
+        });
+
+        res.json({ expenses, totalPages });
     } catch (err) {
-      console.log(err);
-      res.status(500).json({ success: false, error: 'Internal server error' });
+        console.log(err);
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
-  };
+};
 
 
-  exports.addExpense = async (req, res) => {
+exports.addExpense = async (req, res) => {
     const t = await sequelize.transaction()
     const { date, description, category, type, amount } = req.body;
 
@@ -159,8 +159,7 @@ exports.updateExpense = async (req, res) => {
     const id = req.params.updateId;
     const { date, description, category, type, amount } = req.body;
     const newtype = type;
-    console.log(type)
-
+    // console.log(type)
     try {
         const expense = await Expense.findOne({
             where: {

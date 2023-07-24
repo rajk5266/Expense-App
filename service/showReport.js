@@ -22,7 +22,7 @@ exports.generateDailyReport = async (userId, date)=>{
             const type = expense.dataValues.type;
             const amount = expense.dataValues.amount;
             const name = UserName
-            return { date, description , category,type, amount , name}; // Create an object with the desired properties
+            return { date, description , category,type, amount , name}; 
           });
         return reportData
     } catch (err) {
@@ -68,7 +68,7 @@ exports.generateCustomDateReport = async (userId, startDate, endDate) => {
         }})
         const UserName = username['dataValues']['name']
         
-        console.log(startDate, "===", endDate)
+        // console.log(startDate, "===", endDate)
         const customReport = await Expense.findAll({
             where: {
                 userId,

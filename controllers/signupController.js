@@ -12,13 +12,13 @@ exports.getsignupDetails = async (req, res) =>{
 const userExist = await Users.findOne({
     where: {email}
 })
-console.log("userExist", userExist)
+// console.log("userExist", userExist)
 
 if(userExist){
     return res.json({message: "user already exist"})
 }
         bcrypt.hash(password, saltrounds, async(err, hash) =>{
-            console.log('cjeck')
+            // console.log('cjeck')
             await Users.create({
                 name: name,
                 email: email,

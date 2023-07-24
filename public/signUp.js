@@ -7,11 +7,11 @@ async function signup(event){
              email: event.target.email.value,
             password: event.target.password.value
         }
-        const response = await axios.post('http://16.171.1.107:9000/user/signup', signupdetails)
+        const response = await axios.post('http://localhost:8000/user/signup', signupdetails)
        
         if(response.data){
             alert('user created successfully')
-           window.location.href = "http://16.171.1.107:9000/user"
+           window.location.href = "http://localhost:8000/user"
         }
     }catch(err){
         // document.body.innerHTML += err;

@@ -39,7 +39,7 @@ exports.forgotPassword = async (req, res) => {
                 subject: "reset your password",
                 htmlContent: `<p>Hello,</p> 
                        <p>Please click the following link to reset your password:</p> 
-                       <p><a href="http://localhost:9000/password/resetpassword/${id}">Reset password</a></p> 
+                       <p><a href="http://localhost:8000/password/resetpassword/${id}">Reset password</a></p> 
                        <p>If you did not request a password reset, please ignore this email.</p> 
                        <p>Thank you!</p>`,
             }
@@ -72,48 +72,9 @@ exports.showResetPasswordForm = async (req, res) => {
     }
 }
 
-// exports.updatePassword = async (req, res) => {
-//     try{
-//         const{id, confirmPassword} = req.body;
-//         const forgotdetails = await ForgotPassword.findOne({
-//             where:{
-//                 id
-//             }
-//         })
-//         console.log("---->", forgotdetails)
-//        await forgotdetails.update({
-//             isactive: false
-//         })
-//         const userId = forgotdetails.userId;
-//         const user = await User.findOne({
-//             where: {
-//                 id: userId
-//             }
-//         })
-//         if(user){
-//             const saltrounds = 10;
-//           const hash = bcrypt.hash(confirmPassword, saltrounds, async(err, hash) => {
-//                 await user.update({
-//                     password: hash
-//                 })
-//                 res.status(200).json({message: "password updated succesfully"})
-                
-//             })
-//         }
-//         else{
-//             res.status(404).json({message : 'user does not exist', success: false})
-//         }
-//     }catch(err){
-//         console.log(err)
-//     }
-// }
-
-
 exports.updatePassword = async (req, res) => {
     try{
-        console.log(req.user, "req.userrr")
         const{id, confirmPassword} = req.body;
-        console.log("id", id, "---", confirmPassword)
         const forgotdetails = await ForgotPassword.findOne({
             where:{
                 id
@@ -124,13 +85,12 @@ exports.updatePassword = async (req, res) => {
             isactive: false
         })
         const userId = forgotdetails.userId;
-        console.log("userID---> ", userId)
         const user = await User.findOne({
             where: {
                 id: userId
             }
         })
-        console.log("userrr", user)
+        // console.log("userrr", user)
         if (user) {
             const saltrounds = 10;
             const hash = await bcrypt.hash(confirmPassword, saltrounds);
