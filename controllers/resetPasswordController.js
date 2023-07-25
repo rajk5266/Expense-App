@@ -74,15 +74,12 @@ exports.showResetPasswordForm = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
     try{
-        console.log(req.user, "updatepassword")
         const{id, confirmPassword} = req.body;
-        console.log(id, "xsxs", confirmPassword)
         const forgotdetails = await ForgotPassword.findOne({
             where:{
                 id
             }
         })
-        console.log("forgotdetails",forgotdetails)
         forgotdetails.update({
             isactive: false
         })

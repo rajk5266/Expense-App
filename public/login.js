@@ -1,3 +1,4 @@
+const BASE_URL = 'https://spendsmart-nkgi.onrender.com';
 async function login(event) {
     try {
         event.preventDefault()
@@ -6,13 +7,13 @@ async function login(event) {
             password: event.target.password.value
         }
 
-        const logindetails = await axios.post('http://localhost:8000/api/login', obj)
+        const logindetails = await axios.post(`${BASE_URL}/api/login`, obj)
 
         console.log(logindetails)
         if(logindetails.status === 200){
             localStorage.setItem('token', logindetails.data.token)
 
-            window.location.href = 'http://localhost:8000/user/expenses'
+            window.location.href = 'https://spendsmart-nkgi.onrender.com/user/expenses'
         }else{
             console.log('failed to login')
         }

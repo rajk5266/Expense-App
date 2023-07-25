@@ -5,7 +5,7 @@ const auth = (req, res, next) =>{
     try{
         // console.log(req.user, "middlewarechecking")
         const token = req.header('Authorization');
-      
+      console.log(token)
         const {userId} = jwt.verify(token, 'jkfnsdfnifnipf')
        
         User.findByPk(userId).then(user => {

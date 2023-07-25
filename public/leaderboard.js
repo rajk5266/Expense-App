@@ -3,7 +3,7 @@ const tokentosend = { headers: { 'Authorization': token } }
 
 window.addEventListener('DOMContentLoaded', async () => {
        try{
-        const response  = await axios.get('http://localhost:8000/premium/leaderboardStatus', tokentosend)
+        const response  = await axios.get('https://spendsmart-nkgi.onrender.com/premium/leaderboardStatus', tokentosend)
         console.log(response)
         const result = response.data;
         // console.log(result)
@@ -12,10 +12,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
        }catch(err){
         if(err.response.status === 401){
-            window.location.href = "http://localhost:8000/user/expenses"
+            window.location.href = "https://spendsmart-nkgi.onrender.com/user/expenses"
         }
         else if(err.response.status === 404){
-            window.location.href = window.location.href = 'http://localhost:8000/user/expenses'
+            window.location.href = window.location.href = 'https://spendsmart-nkgi.onrender.com/user/expenses'
         }
         console.log(err)
        }

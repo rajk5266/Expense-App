@@ -11,7 +11,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 async function sendNewPassword(e) {
     e.preventDefault();
-
     const id = e.target.id.value;
     const newPassword = e.target.newPassword.value;
     const confirmPassword = e.target.confirmPassword.value;
@@ -26,11 +25,12 @@ async function sendNewPassword(e) {
     }
 
     try {
-        const response = await axios.post('http://localhost:8000/password/resetPassword', obj, tokentosend);
+        const response = await axios.post('https://spendsmart-nkgi.onrender.com/password/resetPassword', obj, tokentosend);
         console.log(response);
         alert('password updated successfully');
-        window.location.href = 'http://localhost:8000/user';
+        window.location.href = 'https://spendsmart-nkgi.onrender.com/user';
     } catch (err) {
         console.log(err);
     }
 }
+
