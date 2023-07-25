@@ -1,4 +1,3 @@
-const BASE_URL = 'https://spendsmart-nkgi.onrender.com';
 async function login(event) {
     try {
         event.preventDefault()
@@ -7,7 +6,7 @@ async function login(event) {
             password: event.target.password.value
         }
 
-        const logindetails = await axios.post(`${BASE_URL}/api/login`, obj)
+        const logindetails = await axios.post(`https://spendsmart-nkgi.onrender.com/api/login`, obj)
 
         console.log(logindetails)
         if(logindetails.status === 200){
