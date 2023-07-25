@@ -83,11 +83,12 @@ exports.updatePassword = async (req, res) => {
         forgotdetails.update({
             isactive: false
         })
-        // const userId = forgotdetails.userId;
-        // console.log(userId)
+        console.log("forgotdetails", forgotdetails)
+        const userId = forgotdetails.userId;
+        console.log(userId, "dijediw")
         const user = await User.findOne({
             where: {
-                id: req.user
+                id: userId
             }
         })
         // console.log("userrr", user)

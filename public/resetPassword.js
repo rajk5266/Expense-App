@@ -1,6 +1,6 @@
 const token = localStorage.getItem('token')
 const tokentosend = { headers: { 'Authorization': token } }
-
+console.log('bdk')
 window.addEventListener('DOMContentLoaded', () => {
     const url = window.location.href
     // console.log("url",url)
@@ -25,7 +25,7 @@ async function sendNewPassword(e) {
     }
 
     try {
-        const response = await axios.post('https://spendsmart-nkgi.onrender.com/password/resetPassword', obj, tokentosend);
+        const response = await axios.post('https://spendsmart-nkgi.onrender.com/password/resetPassword', obj);
         console.log(response);
         alert('password updated successfully');
         window.location.href = 'https://spendsmart-nkgi.onrender.com/user';
