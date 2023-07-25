@@ -7,7 +7,6 @@ exports.showMainPage = (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'expenses.html'))
 }
 
-
 exports.getExpensesList = async (req, res) => {
     try {
         const userId = req.user;
@@ -51,7 +50,6 @@ exports.getAllExpensesforPagination = async (req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
-
 
 exports.addExpense = async (req, res) => {
     const t = await sequelize.transaction()
