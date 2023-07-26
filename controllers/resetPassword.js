@@ -74,7 +74,8 @@ exports.showResetPasswordForm = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
     try{
-        const{id, confirmPassword} = req.body;
+        const id = req.params.id
+        const{confirmPassword} = req.body;
         const forgotdetails = await ForgotPassword.findOne({
             where:{
                 id
@@ -83,9 +84,9 @@ exports.updatePassword = async (req, res) => {
         forgotdetails.update({
             isactive: false
         })
-        console.log("forgotdetails", forgotdetails)
+        // console.log("forgotdetails", forgotdetails)
         const userId = forgotdetails.userId;
-        console.log(userId, "dijediw")
+        // console.log(userId, "dijediw")
         const user = await User.findOne({
             where: {
                 id: userId
