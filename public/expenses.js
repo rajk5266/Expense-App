@@ -281,7 +281,7 @@ function premiumFeatures() {
 
 const logOutButton = document.getElementById('logOutButton')
 logOutButton.onclick = async () => {
-    localStorage.removeItem('token')
+    // localStorage.removeItem('token')
     window.location.href = 'https://spendsmart-nkgi.onrender.com'
 }
 
