@@ -12,14 +12,14 @@ const User = require('./models/user')
 const Expense = require('./models/expensetable')
 const resetPasswordRequest = require('./models/resetPassword')
 
-const signup = require('./routes/signupRoutes')
-const login = require('./routes/loginRoutes')
-const expenses = require('./routes/ExpensePageRoute');
-const premium = require('./routes/premiumroute')
-const leaderboard = require('./routes/leaderboardRoute')
-const resetPassword = require('./routes/resetPasswordRoute')
-const report = require('./routes/reportRoute')
-const dashboard = require('./routes/dashboardRoute')
+const signup = require('./routes/signup')
+const login = require('./routes/login')
+const expenses = require('./routes/ExpensePage');
+const premium = require('./routes/premium')
+const leaderboard = require('./routes/leaderboard')
+const resetPassword = require('./routes/resetPassword')
+const report = require('./routes/report')
+const dashboard = require('./routes/dashboard')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

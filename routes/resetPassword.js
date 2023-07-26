@@ -4,9 +4,9 @@ const auth = require('../middleware/auth')
 const controller = require('../controllers/resetPassword')
 
 
-router.get('/user/forgotPassword', controller.showforgotPasswordForm )
+router.get('/forgotPassword', controller.showforgotPasswordForm )
 
-router.post('/user/forgotPassword',auth.auth,  controller.forgotPassword)
+router.post('/forgotPassword',auth.auth,  controller.forgotPassword)
 
 router.get('/password/resetpassword/:id', controller.showResetPasswordForm)
 

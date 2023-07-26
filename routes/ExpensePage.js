@@ -3,7 +3,7 @@ const router = express.Router();
 const controller = require('../controllers/expenses');
 const auth = require('../middleware/auth')
 
-router.get('/user/expenses', controller.showMainPage)
+router.get('/expenses', controller.showMainPage)
 
 
 router.get('/api/userData/:page/:limit',auth.auth, controller.getAllExpensesforPagination);

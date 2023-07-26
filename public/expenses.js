@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded',
             const limit = limitSelect.value;
             const response = await axios.get(`https://spendsmart-nkgi.onrender.com/api/userData/1/${limit}`, tokentosend)
             const pageButton = response.data.totalPages
-            const ispremium = await axios.get('https://spendsmart-nkgi.onrender.com/user/profile', tokentosend)
+            const ispremium = await axios.get('https://spendsmart-nkgi.onrender.com/profile', tokentosend)
             const ispremiumStatus = ispremium.data.ispremium
 
             if (ispremiumStatus) {
@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded',
             console.log(error)
             if (error.response.status == 401) {
 
-                window.location.href = 'https://spendsmart-nkgi.onrender.com/user'
+                window.location.href = 'https://spendsmart-nkgi.onrender.com'
             }
         }
     })
@@ -281,8 +281,8 @@ function premiumFeatures() {
 
 const logOutButton = document.getElementById('logOutButton')
 logOutButton.onclick = async () => {
-    // localStorage.removeItem('token')
-    window.location.href = 'https://spendsmart-nkgi.onrender.com/user'
+    localStorage.removeItem('token')
+    window.location.href = 'https://spendsmart-nkgi.onrender.com'
 }
 
 function generateButton(pageButton) {

@@ -13,11 +13,11 @@ router.post('/premium/report/monthlyReport', auth.auth, controller.showmonthlyRe
 
 router.post('/premium/report/customDate', auth.auth, controller.showCustomDateReport)
 
-router.post('/premium/report/dailyReport/download', auth.auth, controller.dailyReportDownload )
+// router.post('/premium/report/dailyReport/download', auth.auth, controller.dailyReportDownload )
 
-router.post('/premium/report/monthlyReport/download', auth.auth, controller.monthlyReportDownload)
+// router.post('/premium/report/monthlyReport/download', auth.auth, controller.monthlyReportDownload)
 
-router.post('/premium/report/customDate/download', auth.auth, controller.customDateReportDownload)
+// router.post('/premium/report/customDate/download', auth.auth, controller.customDateReportDownload)
 
 
 module.exports = router;

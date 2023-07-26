@@ -12,10 +12,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
        }catch(err){
         if(err.response.status === 401){
-            window.location.href = "https://spendsmart-nkgi.onrender.com/user/expenses"
+            window.location.href = "https://spendsmart-nkgi.onrender.com/expenses"
         }
         else if(err.response.status === 404){
-            window.location.href = window.location.href = 'https://spendsmart-nkgi.onrender.com/user/expenses'
+            window.location.href = window.location.href = 'https://spendsmart-nkgi.onrender.com/expenses'
         }
         console.log(err)
        }

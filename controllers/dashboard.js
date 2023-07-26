@@ -57,7 +57,7 @@ exports.incomesCategory = async (req, res) => {
     }
   };
 
-  exports.lastEntries = async(req, res) => {
+exports.lastEntries = async(req, res) => {
     console.log(req.user)
     try{
        const lastEntries = await Expense.findAll({

@@ -5,7 +5,7 @@ const auth = require('../middleware/auth')
 
 router.get('/purchase/premiumMembership',auth.auth, controller.purchasePremium)
 
-router.get('/user/profile', auth.auth,  controller.isPremium)
+router.get('/profile', auth.auth,  controller.isPremium)
 
 router.post('/purchase/premiumMembership',auth.auth, controller.premiumMember)
 

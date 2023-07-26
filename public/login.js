@@ -12,7 +12,7 @@ async function login(event) {
         if(logindetails.status === 200){
             localStorage.setItem('token', logindetails.data.token)
 
-            window.location.href = 'https://spendsmart-nkgi.onrender.com/user/expenses'
+            window.location.href = 'https://spendsmart-nkgi.onrender.com/expenses'
         }else{
             console.log('failed to login')
         }

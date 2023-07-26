@@ -28,7 +28,7 @@ async function sendNewPassword(e) {
         const response = await axios.post('https://spendsmart-nkgi.onrender.com/password/resetPassword', obj);
         // console.log(response);
         alert('password updated successfully');
-        window.location.href = 'https://spendsmart-nkgi.onrender.com/user';
+        window.location.href = 'https://spendsmart-nkgi.onrender.com';
     } catch (err) {
         console.log(err);
     }
