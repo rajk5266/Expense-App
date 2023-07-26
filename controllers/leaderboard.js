@@ -24,7 +24,7 @@ exports.showStatus = async (req, res) => {
             where: {
               ispremium: true,
             },
-            order: [[sequelize.literal('savedInPercentage'), 'DESC']],
+            order: [[sequelize.literal('savedInPercentage'), 'ASC']],
           });
           
         if (usersWithExpenses.length === 0) {
