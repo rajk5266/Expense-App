@@ -7,11 +7,11 @@ async function signup(event){
              email: event.target.email.value,
             password: event.target.password.value
         }
-        const response = await axios.post('https://spendsmart-nkgi.onrender.com/user/signup', signupdetails)
+        const response = await axios.post('https://spendsmart-nkgi.onrender.com/signup', signupdetails)
        
         if(response.data){
             alert('user created successfully')
-           window.location.href = "https://spendsmart-nkgi.onrender.com/user"
+           window.location.href = "https://spendsmart-nkgi.onrender.com"
         }
     }catch(err){
         // document.body.innerHTML += err;

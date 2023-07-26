@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const premiumFeaturesControllers = require('../controllers/leaderboardController')
+const premiumFeaturesControllers = require('../controllers/leaderboard')
 const auth = require('../middleware/auth')
 
 router.get('/premium/leaderboard', premiumFeaturesControllers.showLeaderboardSection)

@@ -33,47 +33,40 @@ exports.purchasePremium = async (req, res) => {
 exports.premiumMember = async (req, res) => {
   try {
     const { payment_id, order_id } = req.body;
-    Order.findOne({ where: { orderid: order_id } }).then((order) => {
-      order.update({ paymentid: payment_id, status: 'SUCCESSFULL' }).then(() => {
-        User.update({ ispremium: true },
-          { where: { id: req.user } }).then(() => {
-            return res.status(202).json({ success: true, message: "Transaction successful" });
-          }).catch((err) => {
-            console.log(err)
-          })
-      }).catch((err) => {
-        console.log(err)
-      })
-    }).catch(err => { throw new Error })
+    const order = await Order.findOne({ where: { orderid: order_id } });
+    if (!order) {
+      throw new Error("Order not found");
+    }
+    await order.update({ paymentid: payment_id, status: 'SUCCESSFULL' });
 
+    await User.update({ ispremium: true }, { where: { id: req.user } });
+
+    return res.status(202).json({ success: true, message: "Transaction successful" });
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    return res.status(500).json({ success: false, message: "Transaction failed" });
   }
-}
+};
 
 
-exports.cancelPremium = async (req, res) => {
+
+exports.premiumTransactionFailed = async (req, res) => {
   try {
-    const data = req.body.orderid
-    Order.findOne({ where: { orderid: data } }).then((order) => {
-      order.update({ status: 'FAILED' }).then(() => {
-        User.update({ ispremium: false },
-          { where: { id: req.user } }).then(() => {
-            return res.status(202).json({ success: true, message: "Transaction failed" });
-          }).catch((err) => {
-            console.log(err)
-          })
-      }).catch((err) => {
+    const orderid = req.body.orderid;
+    const order = await Order.findOne({ where: { orderid } });
 
-        console.log(err)
-      })
-
-    }).catch(err => { console.log(err) })
-
+    if (order) {
+      await order.update({ status: 'FAILED' });
+      await User.update({ ispremium: false }, { where: { id: req.user } });
+      return res.status(202).json({ success: true, message: "Transaction failed" });
+    } else {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    return res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-}
+};
 
 exports.isPremium = async (req, res) => {
   console.log("ispremium", req.user)
@@ -81,8 +74,8 @@ exports.isPremium = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.user } });
     if (user) {
-      const isPremium = user.ispremium;
-      res.status(200).json({ ispremium: isPremium });
+      const ispremium = user.ispremium;
+      res.status(200).json({ ispremium });
     } else {
       res.status(404).json({ message: 'User not found' });
     }

@@ -251,7 +251,7 @@ premiumButton.onclick = async function (e) {
         // console.log(response)
         const data = await options.order_id
         console.log(data)
-        await axios.post('https://spendsmart-nkgi.onrender.com/purchase/cancelPremium', { orderid: data }, tokentosend)
+        await axios.post('https://spendsmart-nkgi.onrender.com/purchase/premiumTransactionFailed', { orderid: data }, tokentosend)
         alert('something went wrong')
     })
 }

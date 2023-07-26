@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/reportController')
+const controller = require('../controllers/report')
 const auth = require('../middleware/auth')
 
 router.get('/premium/report', controller.showReport)

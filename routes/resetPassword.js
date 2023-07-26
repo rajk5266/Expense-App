@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth')
-const controller = require('../controllers/resetPasswordController')
+const controller = require('../controllers/resetPassword')
 
 
 router.get('/user/forgotPassword', controller.showforgotPasswordForm )
