@@ -113,22 +113,16 @@ body{
     background-color:  rgb(244, 227, 195);
   }
   
-  @media (max-width: 576px) {
-    .table thead {
+  @media (max-width: 590px) {
+    .hide-on-small-screen {
       display: none;
     }
-    .table tbody td {
-      display: block;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      border: none;
+
+    table {
+      font-size: 14px; 
     }
-    .table tbody td:before {
-      content: attr(data-label);
-      font-weight: bold;
-      display: inline-block;
-      width: 100px;
-      margin-right: 5px;
+
+    th, td {
+      padding: 5px; 
     }
   }
-  
