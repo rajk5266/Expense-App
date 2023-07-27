@@ -18,17 +18,13 @@ exports.showforgotPasswordForm = (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
     try {
-        console.log("forgot passworeq.user",req.user)
-        const { email } = req.body
-        const user = await User.findOne({
-            where: { email }
-        })
+        const { email } = req.body;
+        const user = await User.findOne({ where: { email } });
         if (user) {
-            const id = uuid.v4()
-            ForgotPassword.create({ id, userId: req.user, isactive: true })
-                .catch(err => {
-                    console.log(err)
-                })
+            const userId = user.id;
+            const id = uuid.v4();
+            await ForgotPassword.create({ id, userId, isactive: true });
+
             const sendinblue = new SibApiV3Sdk.TransactionalEmailsApi();
             const sendSmtpemail = {
                 to: [{ email }],
@@ -42,19 +38,19 @@ exports.forgotPassword = async (req, res) => {
                        <p><a href="https://spendsmart-nkgi.onrender.com/password/resetpassword/${id}">Reset password</a></p> 
                        <p>If you did not request a password reset, please ignore this email.</p> 
                        <p>Thank you!</p>`,
-            }
+            };
+
             await sendinblue.sendTransacEmail(sendSmtpemail);
-            return res.status(200).json({ message: "link has been send to reset password", success: true })
-        }
-        else {
-            console.log('user doesnpt exist')
-            return res.status(404).json('user does not exist')
+            return res.status(200).json({ message: "link has been sent to reset password", success: true });
+        } else {
+            console.log('user does not exist');
+            return res.status(404).json({ message: 'user does not exist', success: false });
         }
     } catch (err) {
-        console.log(err)
-        return res.json({ message: err, success: false })
+        console.log(err);
+        return res.status(500).json({ message: "internal server error", success: false });
     }
-}
+};
 
 exports.showResetPasswordForm = async (req, res) => {
     try {

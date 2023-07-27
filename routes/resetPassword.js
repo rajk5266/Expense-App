@@ -6,7 +6,7 @@ const controller = require('../controllers/resetPassword')
 
 router.get('/forgotPassword', controller.showforgotPasswordForm )
 
-router.post('/forgotPassword',auth.auth,  controller.forgotPassword)
+router.post('/forgotPassword', controller.forgotPassword)
 
 router.get('/password/resetpassword/:id', controller.showResetPasswordForm)
 

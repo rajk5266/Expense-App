@@ -1,10 +1,8 @@
-const token = localStorage.getItem('token')
-const tokentosend = { headers: { 'Authorization': token } }
 async function sendLink(e) {
     try {
         e.preventDefault();
         const email = e.target.email.value;
-        const response = await axios.post('https://spendsmart-nkgi.onrender.com/forgotPassword', { email }, tokentosend);
+        const response = await axios.post('https://spendsmart-nkgi.onrender.com/forgotPassword', { email });
         if (response.status === 200) {
             alert('reset password link has been shared to your email');
         }
