@@ -180,7 +180,7 @@ function showReport(report) {
          newRow.innerHTML = `
      <td>${date}</td>
      <td>${category}</td>
-     <td>${description}</td>
+    <td class="hide-on-small-screen">${description}</td>
      <td>${'Expenditures'}</td>
      <td>${amount}</td>
    `;
@@ -189,7 +189,7 @@ function showReport(report) {
         newRow.innerHTML = `
         <td>${date}</td>
         <td>${category}</td>
-        <td>${description}</td>
+        <td class="hide-on-small-screen">${description}</td>
         <td>${'Earnings'}</td>
         <td>${amount}</td>
         `;
