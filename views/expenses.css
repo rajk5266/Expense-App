@@ -1,15 +1,25 @@
+
+.expclass {
+    margin-bottom: 10px;
+}
+
 h1{
     margin-top: 10px;
     margin-bottom: 5px;
 }
+body:not(.premium) {
+    background-color: rgb(255, 250, 243);
+}
+.navbar{
+    height: 80px;
+}
 
-#mainbody{
-    background-color: rgb(228, 204, 204);
+.row:not(.premium) {
+    margin-top: 3px;
+    background-color: rgb(210, 179, 140);
+    border-radius: 10px;
 }
-#body{
-    text-align: center !important; 
-    /* background-color: red; */
-}
+
 .form-group{
     display: inline !important;
 }
@@ -21,19 +31,7 @@ h1{
 #categtag{
     background-color: rgb(238, 217, 217);
 }
-/* #del{
-    border-radius: 5px ;
-    background-color: rgb(245, 135, 135);
-    padding: 3px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-#editbtn{
-    background-color: rgb(175, 159, 159);
-    margin-left:  10px;
-} */
+
 .newexp{
     font-weight: bolder;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -45,18 +43,76 @@ h1{
 }
 .expclass{
     margin-top: 5PX;
+
 }
 .btn{
  margin-bottom: 8px;
 }
-#expblock{
-    border: 3px solid rgb(68, 140, 212);
-    width: 200px;
-    text-align: center;
-    float: right;
-    /* margin: auto; */
-    border-radius: 15px;
-    background-color: rgb(219, 246, 237);
-    font-style: italic;
-    font-weight: bold;
+#tableContainer{
+    margin-top: 4px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(244, 227, 195);
 }
+#table{
+    background-color: rgb(243, 221, 193);
+    --bs-table-border-color:white;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 2px;
+}
+#tableHead{
+    background-color: rgb(210, 179, 140);
+    border: 5px solid  rgb(210, 179, 140);
+    border-radius: 10px;
+}
+
+#premiumButton {
+    padding: 8px 16px;
+    background-color: rgb(210, 179, 140);
+    color: black ;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+  }
+  
+  #premiumButton:hover {
+    background-color: #7e817e;
+    color: white;
+  }
+  #logOutButton{
+    padding: 6px 12px;
+    background-color: rgb(210, 179, 140);
+    color: black ;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #logOutButton:hover {
+    background-color: #7e817e;
+    color: white;
+  }
+
+  #paginationBtn{
+    /* background-color: rgb(186, 163, 142); */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+     gap: 5px;
+  }
+  .pgBtn{
+    border-radius: 6px;
+    /* padding: 4px 6px; */
+    background-color: rgb(210, 179, 140);
+  }
+  #pgLimit{
+    border-radius: 6px;
+    background-color: rgb(210, 179, 140);
+    margin-bottom: 2px;
+    margin-top: 2px;
+  }

@@ -1,35 +1,35 @@
+require("dotenv").config(); 
 const path = require('path')
 const Users = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const token = process.env.TOKEN
 
 exports.loginpage = (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'login.html'))
 }
 
 function generateToken (Id){
-    return jwt.sign({userId: Id}, 'jkfnsdfnifnipf')
+    return jwt.sign({userId: Id}, token)
 }
 
 exports.logindetails = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-      const user = await Users.findOne({ where: { email } });
+  const { email, password } = req.body;
+  try {
+      const user = await Users.findOne({ email });
       if (!user) {
-        return res.status(404).json({ success: false, message: "User not found" });
+          return res.status(404).json({ success: false, message: "User not found" });
       } else {
-        const passwordMatching = await bcrypt.compare(password, user.password);
-        if (passwordMatching) {
-            // return res.redirect('/user/expenses')
-           res.status(200).json({ success: true, message: 'Logged in successfully' , token: generateToken(user.id)});
-        } else {
-          return res.status(400).json({ success: false, message: 'Incorrect password' });
-        } 
+          const passwordMatching = await bcrypt.compare(password, user.password);
+          if (passwordMatching) {
+              res.status(200).json({ success: true, message: 'Logged in successfully', token: generateToken(user._id) });
+          } else {
+              return res.status(400).json({ success: false, message: 'Incorrect password' });
+          }
       }
-    } catch (err) {
+  } catch (err) {
       res.status(500).json({ success: false, message: err.message });
-    }
-  };
-  
+  }
+};
 
 

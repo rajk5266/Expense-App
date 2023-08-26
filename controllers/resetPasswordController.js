@@ -1,8 +1,7 @@
-
+require("dotenv").config(); 
 const uuid = require('uuid')
 const SibApiV3Sdk = require("sib-api-v3-sdk");
 const bcrypt = require("bcrypt");
-// require("dotenv").config(); 
 
 const path = require('path')
 const User = require('../models/user')
@@ -10,7 +9,7 @@ const ForgotPassword = require('../models/forgotPassword');
 
 const client = SibApiV3Sdk.ApiClient.instance;
 const apikey = client.authentications["api-key"];
-apikey.apiKey = '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';
+apikey.apiKey = process.env.RK_API
 
 
 exports.showforgotPasswordForm = (req, res) => {
@@ -18,7 +17,6 @@ exports.showforgotPasswordForm = (req, res) => {
 }
 
 exports.forgotPassword = async (req, res) => {
-    console.log(req.body)
     try {
         const { email } = req.body
         const user = await User.findOne({
@@ -59,7 +57,6 @@ exports.forgotPassword = async (req, res) => {
 }
 
 exports.showResetPasswordForm = async (req, res) => {
-    // console.log(req.)
     try {
         const id = req.params.id
         const idExist = await ForgotPassword.findOne({

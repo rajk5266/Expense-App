@@ -4,51 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table thead {
-  background-color: #f8f9fa;
-}
-
-.table th,
-.table td {
-  padding: 10px;
-  text-align: left;
-}
-
-.table tbody tr:nth-child(even) {
-  background-color: #f5f5f5;
-}
-
-.table tbody tr:hover {
-  background-color: #e9ecef;
-}
-
-.table tbody td {
-  border-bottom: 1px solid #dee2e6;
-}
-
-    </style>
+  <link rel="stylesheet" href="/leaderboard.css">
 </head>
 <body>
+  <div class="container">
     <h1>Leaderboard</h1>
-    <table class="table">
+    <div class="table-responsive">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Rank</th>
             <th scope="col">Name</th>
-            <th scope="col">Expenses</th>
+            <th scope="col">Saved (%)</th>
           </tr>
         </thead>
         <tbody id="table-body">
-          
+  
         </tbody>
       </table>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script src="/leaderboard.js"></script>
 </body>
 </html>

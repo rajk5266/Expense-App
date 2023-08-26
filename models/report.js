@@ -1,19 +1,18 @@
-const Sequelize  = require('sequelize');
-const sequelize = require('../util/database');
+const mongoose = require('mongoose');
 
-const Report = sequelize.define('report', {
-   id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    allowNull: false,
-    primaryKey: true
-   }, 
-   date: Sequelize.STRING,
-   fileURL: Sequelize.STRING,
-   userId:{
-    type: Sequelize.INTEGER,
-    allowNull:false,
-},
- 
+const reportSchema = new mongoose.Schema({
+
+    date: {
+        type: String
+    },
+    fileURL: {
+        type: String
+    },
+    userId: {
+        type: Number,
+        required: true
+    }
 })
+
+const Report = mongoose.model('Report', reportSchema)
 module.exports = Report

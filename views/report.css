@@ -2,20 +2,58 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+  }
+
+  .select-card {
+    background-color:rgb(244, 227, 195);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  /* .card {
-    width: 100%;
-    max-width: 500px;
+  .report-card {
+    background-color:rgb(244, 227, 195);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-   */
-  /* .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  
+  .card-header {
+    background-color:  rgb(210, 179, 140);
+    color: black;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
   }
-   */
+  
+  .card-title {
+    margin-bottom: 0;
+    font-size: 24px;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
   .table {
     margin-top: 20px;
   }
@@ -47,14 +85,48 @@
       margin-bottom: 0;
     }
   }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    
+  }
   
-  /* @media (max-width: 600px) {
-    .form-label,
-    .form-control,
-    .btn-sm {
-      font-size: 12px;
-      padding: 5px;
+  .table thead th {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    font-weight: bold;
+   
+    background-color: rgb(210, 179, 140);;
+  }
+  
+  .table tbody td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+    background-color:  rgb(244, 227, 195);
+  }
+  
+  @media (max-width: 576px) {
+    .table thead {
+      display: none;
+    }
+    .table tbody td {
+      display: block;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border: none;
+    }
+    .table tbody td:before {
+      content: attr(data-label);
+      font-weight: bold;
+      display: inline-block;
+      width: 100px;
+      margin-right: 5px;
     }
   }
-   */
   

@@ -1,95 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="/report.css"> -->
+    <link rel="stylesheet" href="/report.css">
 </head>
+
 <body>
 
     <div class="container mt-5">
-        <div class="card">
-          <div class="card-header">
-            <h1 class="card-title text-center">Expense Report</h1>
-          </div>
-          <div class="card-body">
-            <div class="form-row mb-3">
-              <div class="col-md-4">
-                <label for="reportType" class="form-label">Select Date/Month:</label>
-                <select id="reportType" name="reportType" class="form-select">
-                  <option value="date">Date</option>
-                  <option value="month">Month</option>
-                  <option value="custom">Custom</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label for="selectedDate" class="form-label">Selected Date:</label>
-                <input type="date" id="selectedDate" name="selectedDate" class="form-control">
-              </div>
-            </div>
-            <div class="form-row mb-3">
-              <div class="col-md-4">
-                <select id="selectedMonth" name="selectedMonth" class="form-select" style="display: none;">
-                  <option value="1">January</option>
-                  <option value="2">February</option>
-                  <option value="3">March</option>
-                  <option value="4">April</option>
-                  <option value="5">May</option>
-                  <option value="6">June</option>
-                  <option value="7">July</option>
-                  <option value="8">August</option>
-                  <option value="9">September</option>
-                  <option value="10">October</option>
-                  <option value="11">November</option>
-                  <option value="12">December</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <div id="customRange" style="display: none;">
-                  <label for="startDate" class="form-label">Start Date:</label>
-                  <input type="date" id="startDate" name="startDate" class="form-control" required>
-                  <label for="endDate" class="form-label">End Date:</label>
-                  <input type="date" id="endDate" name="endDate" class="form-control" required>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 select-card">
+                    <div class="card-header">
+                        <h1 class="card-title text-center">Select :- Date/Month</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row mb-3">
+                            <div class="col-md-12">
+                                <label for="reportType" class="form-label">Select Date/Month:</label>
+                                <select id="reportType" name="reportType" class="form-select">
+                                    <option value="date">Date</option>
+                                    <option value="month">Month</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-12">
+                                <label for="selectedDate" class="form-label">Selected Date:</label>
+                                <input type="date" id="selectedDate" name="selectedDate" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-12">
+                                <select id="selectedMonth" name="selectedMonth" class="form-select"
+                                    style="display: none;">
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-12">
+                                <div id="customRange" style="display: none;">
+                                    <label for="startDate" class="form-label">Start Date:</label>
+                                    <input type="date" id="startDate" name="startDate" class="form-control" required>
+                                    <label for="endDate" class="form-label">End Date:</label>
+                                    <input type="date" id="endDate" name="endDate" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3 d-flex justify-content-between">
+                            <div class="col-md-2">
+                                <button id="generateReport" class="btn btn-primary mr-2 mx-1">Generate Report</button>
+                            </div>
+                            <div class="col-md-2 d-flex justify-content-end">
+                                <button id="downloadReport" class="btn btn-success mx-1" >Download Report</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="form-row mb-3 d-flex justify-content-between">
-                <div class="col-md-4">
-                  <button id="generateReport" class="btn btn-primary">Generate Report</button>
+            <div class="col-md-8">
+                <div class="card report-card">
+                    <div class="card-header">
+                        <h1 class="card-title text-center">Financial Report</h1>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="mt-4">Name: <span id="userName"></span></h2>
+                        <div class="table-responsive mt-4">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Category</th>
+                                        <th>Description</th>
+                                        <th>Financial Summary</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportTableBody"></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" style="text-align: left;"><strong>Total Income:</strong> </td>
+                                        <td id="totalIncome" style="text-align: left;"></td>
+                                        <td colspan="1" style="text-align: left;"><strong>Total Expenses:</strong></td>
+                                        <td id="totalExpenses" style="text-align: left;"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4 d-flex justify-content-end">
-                  <button id="downloadReport" class="btn btn-success">Download Report</button>
-                </div>
-              </div>
-              
-            <h2 class="mt-4">User: <span id="userName"></span></h2>
-            <div class="table-responsive mt-4">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody id="reportTableBody"></tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="3" style="text-align: right;"><strong>Total Expenses:</strong></td>
-                    <td id="totalExpenses" style="text-align: right;"></td>
-                  </tr>
-                </tfoot>
-              </table>
             </div>
-          </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Link</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportHistoryTableBody"></tbody>
+                </table>
         </div>
-      </div>
-      
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" ></script>
     <script src="/report.js"></script>
-  </body>
+</body>
+
 </html>

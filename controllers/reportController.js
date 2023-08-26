@@ -11,13 +11,14 @@ exports.showReport = (req, res) => {
 
 exports.showReportHistory = async (req, res) => {
     try{
-          const history = await reportLink.findAll({
+          const history = await reportLink.find({
             where: {
                 userId : req.user
             }
           })
           res.send(history)
     }catch(err){
+        res.status(404).json({message : 'not found'})
         console.log(err)
     }
 }

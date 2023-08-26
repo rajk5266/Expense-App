@@ -25,6 +25,21 @@ reportTypeSelect.addEventListener('change', () => {
     }
 });
 
+window.addEventListener('DOMContentLoaded', async () => {
+    try{
+        const reportHistory = await axios.get('http://localhost:5000/premium/report/history', tokentosend)
+       
+        for(let i=0; i<reportHistory.data.length; i++){
+            showHistory(reportHistory.data[i])
+        }
+    }catch(err){
+        console.log(err)
+        if(err.response.status === 401){
+            window.location.href = 'http://localhost:5000/user'
+        } 
+    }
+})
+
 document.getElementById('generateReport').addEventListener('click', () => {
     const reportType = reportTypeSelect.value;
     let selectedValue = '';
@@ -51,20 +66,63 @@ document.getElementById('generateReport').addEventListener('click', () => {
 
     generateReport(reportType, selectedValue);
 });
+const downloadReportButton = document.getElementById('downloadReport')
+downloadReportButton.disabled = true
 
 async function generateReport(reportType, selectedValue) {
+    
     if (reportType === 'date') {
 
-        const dailyReport = await axios.post('http://localhost:8000/premium/report/dailyReport', { Date: selectedValue }, tokentosend)
-        // console.log(dailyReport)
+        const dailyReport = await axios.post('http://localhost:5000/premium/report/dailyReport', { Date: selectedValue }, tokentosend)
         showReport(dailyReport.data)
+        if(dailyReport.data.length !=0){
+            downloadReportButton.disabled = false;
+        }
+        downloadReportButton.onclick = async () => {
+            try{
+                const downloadReport = await axios.post('http://localhost:5000/premium/report/dailyReport/download', { Date: selectedValue }, tokentosend)
+                if(downloadReport.status === 200){
+                    var a = document.createElement('a');
+                    a.href = downloadReport.data.fileURL;
+                    console.log(downloadReport.data)
+                    a.download = 'myReport.csv';
+                    a.click();
+                    showHistory(downloadReport.data)
+                }else{
+                    console.log(downloadReport.data.message)
+                }
+                // console.log(downloadReport)
+               
+            }catch(err){
+                console.log(err)
+            }
+            }
 
     }
     else if (reportType === 'month') {
-        const monthlyReport = await axios.post('http://localhost:8000/premium/report/monthlyReport', { month: selectedValue }, tokentosend)
+        const monthlyReport = await axios.post('http://localhost:5000/premium/report/monthlyReport', { month: selectedValue }, tokentosend)
         
         showReport(monthlyReport.data)
-
+        if(monthlyReport.data.length !=0){
+            downloadReportButton.disabled = false;
+        }
+        downloadReportButton.onclick = async () => {
+            try{
+                const downloadReport = await axios.post('http://localhost:5000/premium/report/monthlyReport/download', { month: selectedValue }, tokentosend)
+                if(downloadReport.status === 200){
+                    var a = document.createElement('a');
+                    a.href = downloadReport.data.fileURL;
+                    console.log(downloadReport.data)
+                    a.download = 'myReport.csv';
+                    a.click();
+                    showHistory(downloadReport.data)
+                }else{
+                    console.log(downloadReport.data.message)
+                }
+            }catch(err){
+                console.log(err)
+            }
+        }
     }
     else if (reportType === 'custom') {
 
@@ -78,34 +136,95 @@ async function generateReport(reportType, selectedValue) {
             startDate,
             endDate
         }
-        const customDateReport = await axios.post('http://localhost:8000/premium/report/customDate', obj, tokentosend)
-        console.log(customDateReport)
+       
+        const customDateReport = await axios.post('http://localhost:5000/premium/report/customDate', obj, tokentosend)
+        console.log(customDateReport.data)
         showReport(customDateReport.data)
+        if(customDateReport.data.length !=0){
+            downloadReportButton.disabled = false;
+        }
+        downloadReportButton.onclick = async () => {
+                try{
+                    const downloadReport = await axios.post('http://localhost:5000/premium/report/customDate/download', obj, tokentosend)
+                    if(downloadReport.status === 200){
+                        var a = document.createElement('a');
+                        a.href = downloadReport.data.fileURL;
+                        console.log(downloadReport.data)
+                        a.download = 'myReport.csv';
+                        a.click();
+                        showHistory(downloadReport.data)
+                    }else{
+                        console.log(downloadReport.data.message)
+                    }
+                }catch(err){
+                    console.log(err)
+                }
+        }
     }
 }
 
 function showReport(report) {
     const reportTableBody = document.getElementById('reportTableBody');
-    const total = document.getElementById('totalExpenses')
+    const totalExpenses = document.getElementById('totalExpenses')
+    const totalIncome = document.getElementById('totalIncome')
     const username = document.getElementById('userName')
-    let totalAmount = 0;
+    let totalInc = 0;
+    let totalExp = 0;
     reportTableBody.innerHTML = '';
 
     report.forEach(data => {
-        const { date, category, description, amount, name } = data
+        const { date, category, description,type, amount, name } = data
+        const newDate = date.split('T')[0]
         const newRow = document.createElement('tr');
-
+     
+     if(type === 'expense'){
+        totalExp+= amount;
+         newRow.innerHTML = `
+     <td>${newDate}</td>
+     <td>${category}</td>
+     <td>${description}</td>
+     <td>${'Expenditures'}</td>
+     <td>${amount}</td>
+   `;
+     }else{
+        totalInc+= amount
         newRow.innerHTML = `
-    <td>${date}</td>
-    <td>${category}</td>
-    <td>${description}</td>
-    <td>${amount}</td>
-  `;
-        totalAmount += amount
-        reportTableBody.appendChild(newRow);
-        // name = userName
-        username.textContent = name
-    })
-    total.innerText = totalAmount;
+        <td>${newDate}</td>
+        <td>${category}</td>
+        <td>${description}</td>
+        <td>${'Earnings'}</td>
+        <td>${amount}</td>
+        `;
+    }
+    
+    reportTableBody.appendChild(newRow);
+    // name = userName
+    username.textContent = name
+})
+totalIncome.innerText = totalInc;
+totalIncome.style.color = 'green'
+totalExpenses.innerText = totalExp;
+totalExpenses.style.color = 'red'
 }
+
+function showHistory(obj){
+     const historyTableBody = document.getElementById('reportHistoryTableBody')
+
+     const tableRow = document.createElement('tr');
+
+     const dateCell = document.createElement('td');
+     dateCell.textContent = obj.date;
+     tableRow.appendChild(dateCell);
+
+     const urlCell = document.createElement('td');
+    const link = document.createElement('a');
+    link.href = obj.fileURL;
+    link.textContent = obj.fileURL;
+    urlCell.appendChild(link);
+    tableRow.appendChild(urlCell);
+
+     historyTableBody.prepend(tableRow)
+}
+
+
 
